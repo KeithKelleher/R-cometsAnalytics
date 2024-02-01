@@ -55,7 +55,7 @@ jobs:
         if: matrix.config.r == 'release'
         run: |
           remotes::install_cran("BiocManager")
-          BiocManager::install("BiocFileCache", version = remotes::bioc_version())
+          BiocManager::install("BiocFileCache", version = remotes::bioc_version(), type="source")
           packageVersion("BiocFileCache")
           print("in 'release'")
         shell: Rscript {0}
@@ -64,7 +64,7 @@ jobs:
         if: matrix.config.r == 'devel'
         run: |
           remotes::install_dev("BiocManager")
-          BiocManager::install("BiocFileCache", version = "devel")
+          BiocManager::install("BiocFileCache", version = "devel", type="source")
           packageVersion("BiocFileCache")
           print("in 'devel'")
         shell: Rscript {0}
@@ -98,7 +98,9 @@ jobs:
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "error", check_dir = "check")
+        run: |
+          packageVersion("BiocFileCache")
+          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "error", check_dir = "check")
         shell: Rscript {0}
 
       - name: Upload check results
