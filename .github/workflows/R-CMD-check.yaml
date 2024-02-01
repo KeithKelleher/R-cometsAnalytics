@@ -62,7 +62,7 @@ jobs:
         if: matrix.config.os == 'macos-latest'
         run: |
           remotes::install_cran("BiocManager")
-          install.packages('https://bioconductor.org/packages/release/bioc/src/contrib/BiocFileCache_2.10.1.tar.gz', repos=NULL, method='libcurl', dependencies=TRUE)
+          BiocManager::install("BiocFileCache", version = "devel")
         shell: Rscript {0}
       
       - name: Install BiocFileCache devel
