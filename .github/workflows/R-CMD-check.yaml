@@ -62,7 +62,7 @@ jobs:
         if: matrix.config.os == 'macos-latest'
         run: |
           remotes::install_cran("BiocManager")
-          BiocManager::install("BiocFileCache", version = "2.11.1")
+          BiocManager::install("BiocFileCache", version = "2.11")
         shell: Rscript {0}
       
       - name: Install BiocFileCache devel
