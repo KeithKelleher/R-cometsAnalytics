@@ -50,7 +50,7 @@ jobs:
           #saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
           #writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
-
+      
       - name: Install BiocFileCache
         if: matrix.config.r == 'release' && matrix.config.os != 'macos-latest'
         run: |
@@ -58,8 +58,14 @@ jobs:
           BiocManager::install("BiocFileCache", version = remotes::bioc_version())
         shell: Rscript {0}
 
+      - name: Install BiocFileCache macos
+        if: matrix.config.os != 'macos-latest'
+        run: |
+          install.packages('https://bioconductor.org/packages/release/bioc/src/contrib/BiocFileCache_2.10.1.tar.gz', repos=NULL, method='libcurl', dependencies=TRUE)
+        shell: Rscript {0}
+      
       - name: Install BiocFileCache devel
-        if: matrix.config.r == 'devel' || matrix.config.os == 'macos-latest'
+        if: matrix.config.r == 'devel' && matrix.config.os != 'macos-latest'
         run: |
           remotes::install_dev("BiocManager")
           BiocManager::install("BiocFileCache", version = "devel")
