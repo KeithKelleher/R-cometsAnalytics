@@ -59,7 +59,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Install BiocFileCache macos
-        if: matrix.config.os != 'macos-latest'
+        if: matrix.config.os == 'macos-latest'
         run: |
           install.packages('https://bioconductor.org/packages/release/bioc/src/contrib/BiocFileCache_2.10.1.tar.gz', repos=NULL, method='libcurl', dependencies=TRUE)
         shell: Rscript {0}
