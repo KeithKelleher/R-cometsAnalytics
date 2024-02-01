@@ -56,8 +56,11 @@ jobs:
         run: |
           remotes::install_cran("BiocManager")
           BiocManager::install("BiocFileCache", version = remotes::bioc_version(), type="source")
-          packageVersion("BiocFileCache")
           print("in 'release'")
+          print("BiocFileCache")
+          packageVersion("BiocFileCache")
+          print("dbplyr")
+          packageVersion("dbplyr")
         shell: Rscript {0}
 
       - name: Install BiocFileCache devel
@@ -65,8 +68,11 @@ jobs:
         run: |
           remotes::install_dev("BiocManager")
           BiocManager::install("BiocFileCache", version = "devel", type="source")
-          packageVersion("BiocFileCache")
           print("in 'devel'")
+          print("BiocFileCache")
+          packageVersion("BiocFileCache")
+          print("dbplyr")
+          packageVersion("dbplyr")
         shell: Rscript {0}
         
       - name: Install RaMP
@@ -99,7 +105,10 @@ jobs:
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: |
+          print("BiocFileCache")
           packageVersion("BiocFileCache")
+          print("dbplyr")
+          packageVersion("dbplyr")
           rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "error", check_dir = "check")
         shell: Rscript {0}
 
