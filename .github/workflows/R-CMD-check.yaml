@@ -24,7 +24,7 @@ jobs:
       matrix:
         config:
           - {os: windows-latest, r: 'release'}
-          - {os: macos-latest, r: 'devel'}
+          - {os: macos-latest, r: 'release'}
           - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
           - {os: ubuntu-20.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
@@ -52,27 +52,17 @@ jobs:
         shell: Rscript {0}
 
       - name: Install BiocFileCache
-        if: matrix.config.r == 'release'
+        if: matrix.config.r == 'release' && matrix.config.os != 'macos-latest'
         run: |
           remotes::install_cran("BiocManager")
-          BiocManager::install("BiocFileCache", version = remotes::bioc_version(), type="source")
-          print("in 'release'")
-          print("BiocFileCache")
-          packageVersion("BiocFileCache")
-          print("dbplyr")
-          packageVersion("dbplyr")
+          BiocManager::install("BiocFileCache", version = remotes::bioc_version())
         shell: Rscript {0}
 
       - name: Install BiocFileCache devel
-        if: matrix.config.r == 'devel'
+        if: matrix.config.r == 'release' || matrix.config.os == 'macos-latest'
         run: |
           remotes::install_dev("BiocManager")
-          BiocManager::install("BiocFileCache", version = "devel", type="source")
-          print("in 'devel'")
-          print("BiocFileCache")
-          packageVersion("BiocFileCache")
-          print("dbplyr")
-          packageVersion("dbplyr")
+          BiocManager::install("BiocFileCache", version = "devel")
         shell: Rscript {0}
         
       - name: Install RaMP
